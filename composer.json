@@ -1,0 +1,15 @@
+{
+    "name": "jamshidbekakhlidinov/e-photo",
+    "description": "Ephoto api",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "guzzlehttp/guzzle": "^7.4",
+        "ext-dom": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "jamshidbekakhlidinov\\": "src/"
+        }
+    }
+}
