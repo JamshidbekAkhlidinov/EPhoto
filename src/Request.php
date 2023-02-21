@@ -1,6 +1,6 @@
 <?php
 
-namespace JupiterAPI;
+namespace jamshidbekakhlidinov;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Cookie\FileCookieJar;
@@ -24,8 +24,8 @@ class Request
     public static function fetchAsync($uri, array $data = [], string $method = 'POST'): PromiseInterface
     {
         return static::getClient()->requestAsync($method, $uri, static::formData($data))->then(
-            onFulfilled: fn (ResponseInterface $response) => static::jsonDecode($response->getBody()->getContents()),
-            onRejected: fn (RequestException $exception) => static::jsonDecode($exception->getResponse()->getBody()->getContents()),
+            fn(ResponseInterface $response) => static::jsonDecode($response->getBody()->getContents()),
+            fn(RequestException $exception) => static::jsonDecode($exception->getResponse()->getBody()->getContents()),
         );
     }
 
@@ -37,7 +37,7 @@ class Request
      */
     public static function fetch($uri, array $data = [], string $method = 'POST'): mixed
     {
-        return static::fetchAsync($uri, $data, method: $method)
+        return static::fetchAsync($uri, $data, $method)
             ->wait();
     }
 
@@ -56,7 +56,7 @@ class Request
     {
         return static::$client = static::$client ?: new HttpClient([
             'base_uri' => 'https://en.ephoto360.com/',
-            'cookies' => new FileCookieJar(__DIR__ .'/../storage/cookies.json'),
+            'cookies' => new FileCookieJar(__DIR__ . '/../storage/cookies.json'),
             'headers' => [
                 'Content-Type' => 'multipart/form-data',
             ]
@@ -77,10 +77,10 @@ class Request
         foreach ($params as $index => $item)
             is_string($item) && is_file($item) && filesize($item) > 0
                 ? $data['multipart'][$index] = [
-                    'name' => $index,
-                    'contents' => \GuzzleHttp\Psr7\Utils::tryFopen($item, 'r'),
-                    'filename' => basename($item)
-                ] : $data['form_params'][$index] = $item;
+                'name' => $index,
+                'contents' => \GuzzleHttp\Psr7\Utils::tryFopen($item, 'r'),
+                'filename' => basename($item)
+            ] : $data['form_params'][$index] = $item;
 
         return array_filter($data);
     }

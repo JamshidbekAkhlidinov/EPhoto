@@ -1,7 +1,7 @@
 <?php
 
 
-use JupiterAPI\EPhoto360;
+use jamshidbekakhlidinov\EPhoto360;
 
 require_once __DIR__ .'/../vendor/autoload.php';
 

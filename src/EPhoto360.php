@@ -1,6 +1,6 @@
 <?php
 
-namespace JupiterAPI;
+namespace jamshidbekakhlidinov;
 
 use DOMDocument;
 use DOMXPath;
@@ -45,8 +45,8 @@ class EPhoto360
     public static function getCategory($contents, int $page = 1): array
     {
         $contents = is_numeric($contents)
-            ? Request::fetch('/-c'. $contents .'-p'. $page, method: 'GET')
-            : (filter_var($contents, FILTER_VALIDATE_URL) ? Request::fetch($contents, method: 'GET') : $contents);
+            ? Request::fetch('/-c'. $contents .'-p'. $page, [],'GET')
+            : (filter_var($contents, FILTER_VALIDATE_URL) ? Request::fetch($contents, [],'GET') : $contents);
 
         $xpath = static::getXPath($contents);
 
@@ -109,8 +109,8 @@ class EPhoto360
     public static function getEffect($contents, array $fromData = []): array
     {
         $contents = is_numeric($contents)
-            ? Request::fetch('/-'. $contents .'.html', method: 'GET')
-            : (filter_var($contents, FILTER_VALIDATE_URL) ? Request::fetch($contents, method: 'GET') : $contents);
+            ? Request::fetch('/-'. $contents .'.html',[],'GET')
+            : (filter_var($contents, FILTER_VALIDATE_URL) ? Request::fetch($contents, [],'GET') : $contents);
 
         $xpath = static::getXPath($contents);
         if($xpath->query('//div[@class="error-page"]')->count() === 1 || empty($contents))
